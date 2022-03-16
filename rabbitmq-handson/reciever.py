@@ -1,22 +1,16 @@
 #!/usr/bin/env python
 import pika, sys, os
-from dotenv import load_dotenv
 
-load_dotenv("./consumerID.env")
-
-CONSUMER_ID = os.getenv("CONSUMER_ID")
-queue_name = "consumer_queue_{}".format(CONSUMER_ID)
-print(queue_name)
 def main():
     connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
     channel = connection.channel()
 
-    channel.queue_declare(queue = queue_name)
+    channel.queue_declare(queue='hello')
 
     def callback(ch, method, properties, body):
-        print("Received {}".format(body))
+        print(" [x] Received %r" % body)
 
-    channel.basic_consume(queue_name, callback, auto_ack = True)
+    channel.basic_consume(queue='hello', on_message_callback=callback, auto_ack=True)
 
     print(' [*] Waiting for messages. To exit press CTRL+C')
     channel.start_consuming()
