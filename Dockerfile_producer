@@ -3,5 +3,5 @@ WORKDIR /app/producer
 COPY producer.py requirements_producer.txt ./
 RUN pip3 install -r requirements_producer.txt
 EXPOSE 8888
-CMD ["python3", "producer.py"]
+CMD ["python3" , "producer.py"]
 
