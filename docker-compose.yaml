@@ -1,0 +1,24 @@
+version: '3.3'
+  
+services:
+    rabbitmq:
+      image: rabbitmq:latest
+      volumes:
+        - .:/app/rabbitmq
+      ports:
+        - "15672:15672"
+      networks:
+        - my-network
+    producer:
+      build:
+        context: .
+        dockerfile: Dockerfile_producer
+      ports:
+        - "8888:8888"
+      depends_on:
+        - rabbitmq
+      networks:
+        - my-network
+
+networks:
+  my-network: {}

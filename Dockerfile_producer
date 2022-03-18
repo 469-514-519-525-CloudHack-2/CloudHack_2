@@ -1,7 +1,8 @@
 FROM python:3.9
 WORKDIR /app/producer
-COPY producer.py requirements_producer.txt ./
+COPY producer.py requirements_producer.txt index.html ./
 RUN pip3 install -r requirements_producer.txt
 EXPOSE 8888
-CMD ["python3" , "producer.py"]
+ENV PYTHONUNBUFFERED=1
+CMD ["python3" , "-u", "producer.py"]
 
