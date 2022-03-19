@@ -11,6 +11,7 @@ import pika
 
 connection = pika.BlockingConnection(
     pika.URLParameters('amqp://rabbitmq?connection_attempts=5&retry_delay=5'))
+
 channel = connection.channel()
 
 channel.queue_declare(queue='database_queue')

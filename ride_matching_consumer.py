@@ -1,15 +1,19 @@
 #!/usr/bin/env python
-from sqlite3 import connect
 import pika, sys, os
 from dotenv import load_dotenv
 import json
 import time
+print("Consumer going to sleep...")
+time.sleep(30)
+print("Consumer strted...")
 
 load_dotenv("./consumerID.env")
 
-CONSUMER_ID = os.getenv("CONSUMER_ID")
+# CONSUMER_ID = os.getenv("CONSUMER_ID")
+CONSUMER_ID="test"
 queue_name = "consumer_queue_{}".format(CONSUMER_ID)
-connection = pika.BlockingConnection(pika.ConnectionParameters(host='rabbitmq'))
+connection = pika.BlockingConnection(
+    pika.URLParameters('amqp://rabbitmq?connection_attempts=5&retry_delay=5'))
 channel = connection.channel()
 print(queue_name)
 def main():
@@ -17,7 +21,7 @@ def main():
 
     def callback(ch, method, properties, body):
         print(" [x] Received %r" % body.decode())
-        time.sleep(json.loads(body.decode())["time"])
+        # time.sleep(json.loads(body.decode())["time"])
         print("awoken")
         ch.basic_ack(delivery_tag = method.delivery_tag)
 
