@@ -19,6 +19,17 @@ services:
         - rabbitmq
       networks:
         - my-network
+    consumer:
+      build:
+        context: .
+        dockerfile: Dockerfile_ride_matching
+      ports:
+        - "5000:5000"
+      depends_on:
+        - rabbitmq
+      networks:
+        - my-network
+
 
 networks:
   my-network: {}

@@ -9,7 +9,7 @@ load_dotenv("./consumerID.env")
 
 CONSUMER_ID = os.getenv("CONSUMER_ID")
 queue_name = "consumer_queue_{}".format(CONSUMER_ID)
-connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
+connection = pika.BlockingConnection(pika.ConnectionParameters(host='rabbitmq'))
 channel = connection.channel()
 print(queue_name)
 def main():

@@ -1,0 +1,7 @@
+FROM python:3.9
+WORKDIR /app/consumer
+COPY ride_matching_consumer.py requirements_consumer.txt index.html ./
+RUN pip3 install -r requirements_consumer.txt
+EXPOSE 5000
+ENV PYTHONUNBUFFERED=1
+CMD ["python3" , "-u", "ride_matching_consumer.py"]
