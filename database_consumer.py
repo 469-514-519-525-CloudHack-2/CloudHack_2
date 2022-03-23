@@ -7,15 +7,22 @@ app = Flask(__name__)
 
 @app.route('/addData',methods=['POST'])
 def addData():
-    host=MongoClient("172.17.0.2")  #docker inspect 
-    # host=MongoClient("mongodb")
+    host=MongoClient("172.17.0.2")
+    channel = connection.channel()
+    channel.queue_declare(queue='database_queue')
+
+    def callback(ch, method, properties, body):
+        print(" [x] Received %r" % body)
+
+    channel.basic_consume(callback, queue='database_queue', no_ack=True)
+    print(' [*] Waiting for messages. To exit press CTRL+C')
+    channel.start_consuming()
+
     db=host["consumerDB"]
     collection=db["consumers"]
     sample_data=request.json
     collection.insert_one(sample_data)
-    print('Inserted into the MongoDB database!')
-    # rec_data = collection.find_one({"name":"hello"})
-    # print("Fecthed from MongoDB: ",rec_data)    
+    print('Inserted into the MongoDB database!')  
     return 'JSON added'
 
 

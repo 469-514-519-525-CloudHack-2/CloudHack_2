@@ -43,6 +43,7 @@ def new_ride():
 	queue_name = 'consumer_queue_{}'.format(matched_ride)
 	channel.queue_declare(queue = queue_name)
 	channel.basic_publish(exchange = '', routing_key = queue_name, body = string_data)
+	channel.basic_publish(exchange = '', routing_key = 'database_queue', body = string_data)
 	print("Sent to {}".format(queue_name))
 	# connection.close()
 	return redirect("/")
