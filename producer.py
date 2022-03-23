@@ -35,11 +35,11 @@ def new_ride():
 	data["cost"] = request.form.get("cost")
 	print(data)
 	string_data = json.dumps(data)
-	print(consumers, len(consumers))
-	# matched_ride_idx = randint(0, len(consumers) - 1)
+	# print(consumers, len(consumers))
+	matched_ride_idx = randint(0, len(consumers) - 1)
 	# print(matched_ride_idx, len(consumers))
-	# matched_ride = consumers[matched_ride_idx]["consumer_id"]
-	matched_ride = "test"
+	matched_ride = consumers[matched_ride_idx]["name"]
+	# matched_ride = "test"
 	queue_name = 'consumer_queue_{}'.format(matched_ride)
 	channel.queue_declare(queue = queue_name)
 	channel.basic_publish(exchange = '', routing_key = queue_name, body = string_data)

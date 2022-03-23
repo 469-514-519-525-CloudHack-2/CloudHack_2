@@ -1,16 +1,32 @@
 #!/usr/bin/env python
+from flask import Flask, render_template, request, jsonify, redirect, url_for
+import json
+import requests
 import pika, sys, os
 from dotenv import load_dotenv
 import json
 import time
+app = Flask(__name__)
 print("Consumer going to sleep...")
-time.sleep(30)
+time.sleep(60)
 print("Consumer strted...")
 
 load_dotenv("./consumerID.env")
 
-# CONSUMER_ID = os.getenv("CONSUMER_ID")
-CONSUMER_ID="test"
+
+CONSUMER_ID = os.getenv("CONSUMER_ID")
+CONSUMER_IP = os.getenv("CONSUMER_IP")
+consumer_details  = {"name":CONSUMER_ID,"IP":CONSUMER_IP}
+
+
+res = requests.post('http://producer:8888/new_ride_matching_consumer', json=consumer_details)
+# main()
+print(res)
+# return jsonify({"message":"message sent to new_ride_matching_consumer"})
+
+# CONSUMER_ID=""
+# print(consumer_details)
+
 queue_name = "consumer_queue_{}".format(CONSUMER_ID)
 connection = pika.BlockingConnection(
     pika.URLParameters('amqp://rabbitmq?connection_attempts=5&retry_delay=5'))
@@ -32,12 +48,9 @@ def main():
     channel.start_consuming()
 
 if __name__ == '__main__':
-    try:
-        main()
-    except KeyboardInterrupt:
-        print('Interrupted')
-        connection.close()
-        try:
-            sys.exit(0)
-        except SystemExit:
-            os._exit(0)
+    print("sup")
+    # app.run(host=CONSUMER_IP, port=5000, debug=True)
+    main()
+    print("sup_again")
+
+    
