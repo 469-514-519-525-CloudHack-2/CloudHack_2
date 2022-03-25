@@ -1,0 +1,7 @@
+FROM python:3.9
+WORKDIR /app/database
+COPY database_consumer.py requirements_database.txt ./
+RUN pip3 install -r requirements_database.txt
+EXPOSE 7777
+ENV PYTHONUNBUFFERED=1
+CMD ["python3" , "-u", "database_consumer.py"]

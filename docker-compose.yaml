@@ -9,6 +9,14 @@ services:
         - "15672:15672"
       networks:
         - my-network
+    mongoDB:
+      image: mongo:latest
+      volumes:
+        - .:/data/db
+      ports:
+        - "27017:27017"
+      networks:
+        - my-network
     producer:
       build:
         context: .
@@ -29,6 +37,20 @@ services:
         - rabbitmq
       networks:
         - my-network
+    database:
+      build:
+        context: .
+        dockerfile: Dockerfile_database
+      volumes:
+        - .:/data/db
+      ports:
+        - "7777:7777"
+      depends_on:
+        - rabbitmq
+        - mongoDB
+      networks:
+        - my-network
+
 
 
 networks:

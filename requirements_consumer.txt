@@ -1,5 +1,5 @@
 pika==1.2.0
 python_dotenv==0.19.2
-flask==1.1.2
-itsdangerous==1.1.0
+flask==2.0.3
+itsdangerous==2.1.2
 requests==2.22.0
