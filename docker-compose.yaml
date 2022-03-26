@@ -12,7 +12,7 @@ services:
     mongoDB:
       image: mongo:latest
       volumes:
-        - .:/data/db
+        -  mongodata:/data/db
       ports:
         - "27017:27017"
       networks:
@@ -48,6 +48,8 @@ services:
       depends_on:
         - rabbitmq
         - mongoDB
+      links:
+        - mongoDB
       networks:
         - my-network
 
@@ -55,3 +57,7 @@ services:
 
 networks:
   my-network: {}
+
+volumes:
+  mongodata:
+  
