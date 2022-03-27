@@ -1,5 +1,0 @@
-Start mongo docker
-
--docker run -dp 27017:27017 mongo  --start image
--docker inspect <container-id>  --to find IP address
-
