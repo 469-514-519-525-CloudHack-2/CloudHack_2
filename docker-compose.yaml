@@ -17,6 +17,17 @@ services:
         - "27017:27017"
       networks:
         - my-network
+    consumer_master:
+      build:
+        context: .
+        dockerfile: Dockerfile_consumer_master
+      ports:
+        - "8989:8989"
+      depends_on:
+        - rabbitmq
+        - producer
+      networks:
+        - my-network
     producer:
       build:
         context: .
@@ -27,34 +38,16 @@ services:
         - rabbitmq
       networks:
         - my-network
-    consumer1:
+    consumer:
       build:
         context: .
         dockerfile: Dockerfile_ride_matching
       ports:
-        - "5000:5000"
+        - "5001-5015:5000"
       depends_on:
         - rabbitmq
-      networks:
-        - my-network
-    consumer2:
-      build:
-        context: .
-        dockerfile: Dockerfile_ride_matching
-      ports:
-        - "5001:5000"
-      depends_on:
-        - rabbitmq
-      networks:
-        - my-network
-    consumer3:
-      build:
-        context: .
-        dockerfile: Dockerfile_ride_matching
-      ports:
-        - "5002:5000"
-      depends_on:
-        - rabbitmq
+        - producer
+        - consumer_master
       networks:
         - my-network
     database:
@@ -67,8 +60,6 @@ services:
         - "7777:7777"
       depends_on:
         - rabbitmq
-        - mongoDB
-      links:
         - mongoDB
       networks:
         - my-network

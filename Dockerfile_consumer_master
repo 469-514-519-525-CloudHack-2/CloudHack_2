@@ -1,0 +1,7 @@
+FROM python:3.9
+WORKDIR /app/consumer
+COPY consumer_master.py requirements_consumers_master.txt consumerID.env ./
+RUN pip3 install -r requirements_consumers_master.txt
+EXPOSE 8989
+ENV PYTHONUNBUFFERED=1
+CMD ["python3" , "-u", "consumer_master.py"]

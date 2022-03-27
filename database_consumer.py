@@ -5,7 +5,6 @@ import requests
 import pika, sys, os
 import json
 import time
-time.sleep(10)
 
 queue_name = "database_queue"
 connection = pika.BlockingConnection(
@@ -19,22 +18,20 @@ def addData():
 
     def callback(ch, method, properties, body):
         res = body.decode()
-        print(" [x] Received %r" % res)
-        print("awoken")
+        print("Received %r in the database" % res)
         ch.basic_ack(delivery_tag = method.delivery_tag)
         db=host["consumerDB"]
         collection=db["consumers"]
         sample_data=json.loads(res)
-        print("Sample data",sample_data)
         collection.insert_one(sample_data)
 
         var = list(collection.find())
-        print('Inserted into the MongoDB database!')  
-        print("Objects in Database:",var)
+        print('Inserted ', sample_data, ' into the MongoDB database!')  
+        print("Objects in Database:\n",var)
 
     channel.basic_consume(queue_name, callback, auto_ack = False)
 
-    print(' [*] Waiting for messages. To exit press CTRL+C')
+    print('Waiting for messages to the database queue')
     channel.start_consuming()
     
 
