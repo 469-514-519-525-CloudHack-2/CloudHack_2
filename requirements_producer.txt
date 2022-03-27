@@ -1,3 +1,4 @@
 flask==2.0.3
 pika==1.2.0
 itsdangerous==2.1.2
+python_dotenv==0.19.2

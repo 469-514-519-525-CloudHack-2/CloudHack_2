@@ -1,6 +1,6 @@
 FROM python:3.9
 WORKDIR /app/consumer
-COPY ride_matching_consumer.py requirements_consumer.txt consumerID.env ./
+COPY ride_matching_consumer.py requirements_consumer.txt consumerID.env producerID.env ./
 RUN pip3 install -r requirements_consumer.txt
 EXPOSE 5000
 ENV PYTHONUNBUFFERED=1
