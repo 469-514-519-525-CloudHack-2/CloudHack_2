@@ -27,7 +27,7 @@
 * In database microservice we access the details present in this queue and insert it into mongodb. 
 * Mongodb host and collection are created beforehand.
 
-
+![](/flowchart.png)
 
 
 ## Team Members:
