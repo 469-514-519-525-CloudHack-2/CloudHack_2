@@ -8,6 +8,8 @@
 ## Workflow
 
 * Based on the dependencies mentioned in the yml file, docker images are built and containers are up and running.
+
+
 ### Producer
 
 * A ride request is sent to producer containing the details about the ride such as pickup, destination and so on.
@@ -26,6 +28,15 @@
 * The ride details and its matched consumer are pushed to this queue. 
 * In database microservice we access the details present in this queue and insert it into mongodb. 
 * Mongodb host and collection are created beforehand.
+
+
+## Command
+
+To deploy this project run
+
+```bash
+  docker-compose up --scale consumer=<numberOfConsumers>
+```
 
 
 ## Flowchart
